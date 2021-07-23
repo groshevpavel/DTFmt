@@ -17,6 +17,8 @@ based on https://strftime.org/
 
 import datetime
 import typing as t
+import warnings
+from pathlib import Path
 
 
 def compose_str(fields: t.Tuple, divider: str = '') -> str:
@@ -172,3 +174,25 @@ def f(func: t.Callable, fmt: str) -> str:
 
 def now_str(fmt: str = DTFmt.LOCALE_DTTM) -> str:
     return f(now, fmt)
+
+
+def str_to_path(path: t.Union[str, Path, None]) -> t.Optional[Path]:
+    if not path:
+        return
+    return path if isinstance(path, Path) else Path(path)
+
+
+def filename_add_now(
+        filename: t.Union[str, Path],
+        now_str: str = None, now_divider: str = '@', now_fmt: str = DTFmt.YMD.DASHED_UNDERSCORE_HMS_DASHED) -> Path:
+    filename = str_to_path(path=filename)
+
+    now_str = now_str if now_str else datetime_functions.now_str(now_fmt)
+
+    if filename.is_file():
+        return filename.with_name(f'{filename.stem}{now_divider}{now_str}{filename.suffix}')
+
+    folder = filename.parent / f'{filename}{now_divider}{now_str}'
+    warnings.warn(f'`{folder.absolute()}` result of adding `now` to folder `{filename}`')
+    
+    return folder
