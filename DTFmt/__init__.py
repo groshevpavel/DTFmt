@@ -1,17 +1,18 @@
 """
 based on https://strftime.org/
 
->>> from mediascope.bdp_python_utils.common import datetime_functions, DTFmt
->>> datetime_functions.now_str()
+>>> from DTFmt import now_str, DTFmt
+>>> now_str()
 '15072021-133324'
->>> datetime_functions.now_str(datetime_functions.DTFmt.DMY.THIN)
+>>> now_str(DTFmt.DMY.THIN)
 '15072021'
->>> datetime_functions.now_str(DTFmt.DMY.SPACED)
+>>> now_str(DTFmt.DMY.SPACED)
 '15 07 2021'
->>> datetime_functions.now_str(DTFmt.DMY.SLASHED)
+>>> now_str(DTFmt.DMY.SLASHED)
 '15/07/2021'
->>> datetime_functions.now_str(DTFmt.YMD.SLASHED_AND_HMS_COLON)
+>>> now_str(DTFmt.YMD.SLASHED_AND_HMS_COLON)
 '2021/07/15 13:35:46'
+
 """
 
 import datetime
